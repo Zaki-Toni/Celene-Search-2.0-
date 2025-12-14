@@ -4,7 +4,6 @@
 > Un sistema de Recuperación de Información (IR) inteligente que utiliza **WordNet** para entender lo que buscas, no solo lo que escribes.
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
-![Flask](https://img.shields.io/badge/Web-Flask-green)
 ![NLP](https://img.shields.io/badge/NLP-NLTK-yellow)
 ![Search](https://img.shields.io/badge/Engine-Whoosh-orange)
 ![License](https://img.shields.io/badge/License-MIT-grey)
@@ -44,13 +43,13 @@ El proyecto sigue una estructura de capas estricta:
 Celene-Search 2.0/
 │
 ├── data/
-│   └── documents/          # 📄 ¡Pon tus archivos .txt aquí!
+│   └── documents/          # 📄 ¡Pon tus archivos ????? aquí!
 │
 ├── src/
 │   ├── core/               # Interfaces y contratos (IIndexReader, etc.)
 │   ├── indexing/           # Lógica de carga y escritura en Whoosh
 │   ├── nlp/                # Pipeline, Tokenizer, WordNet Expander
-│   ├── web/                # Rutas y templates de Flask
+│   ├── web/                # ?????????
 │   └── services/           # Orquestadores (SearchService)
 │
 ├── index_storage/          # 🗄️ Índice generado automáticamente
