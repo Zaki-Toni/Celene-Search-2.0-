@@ -1,19 +1,18 @@
 import nltk
 from nltk.corpus import wordnet, stopwords
-# --- IMPORTAMOS cast y Any ---
 from typing import Any, List, Tuple, cast
-
-# Importamos la interfaz base
 from src.core.interfaces import INLPComponent
 
-# --- 1. Tokenizador ---
+### Añadir un mecanismo de verificación en tiempo de ejecución
+
+# Tokenizador 
 class TokenizerComponent(INLPComponent):
     """Divide el texto en palabras individuales."""
     
     def process(self, text: str) -> list[str]:
         return nltk.word_tokenize(text.lower())
 
-# --- 2. Filtro de Stopwords ---
+# Filtro de Stopwords
 class StopwordFilter(INLPComponent):
     """Elimina palabras vacías."""
     
@@ -23,20 +22,18 @@ class StopwordFilter(INLPComponent):
     def process(self, tokens: list[str]) -> list[str]:
         return [w for w in tokens if w not in self.stop_words and w.isalnum()]
 
-# --- 3. Etiquetador Gramatical (POS Tagger) ---
+# Etiquetador Gramatical
 class POSTagger(INLPComponent):
     """Identifica sustantivos, verbos, etc."""
     
     def process(self, tokens: list[str]) -> list[Tuple[str, str]]:
         return nltk.pos_tag(tokens)
 
-# --- 4. Expansor de WordNet (El Cerebro) ---
-
+# Expansor de WordNet
 class WordNetExpander(INLPComponent):
     """Busca sinónimos en WordNet."""
 
     def _get_wordnet_pos(self, treebank_tag: str) -> str | None:
-        # ... (esto déjalo igual) ...
         if treebank_tag.startswith('J'): return wordnet.ADJ
         elif treebank_tag.startswith('V'): return wordnet.VERB
         elif treebank_tag.startswith('N'): return wordnet.NOUN
@@ -51,10 +48,10 @@ class WordNetExpander(INLPComponent):
             
             wn_tag = self._get_wordnet_pos(tag)
             
-            # 1. Intento Principal: Buscar respetando la categoría gramatical detectada
+            # Intento Principal: Buscar respetando la categoría gramatical detectada
             synsets = wordnet.synsets(word, pos=wn_tag, lang='spa')
             
-            # 2. Plan B (Fallback): 
+            # Plan B: 
             # Si la búsqueda estricta no trajo nada (quizás el POS tagger se equivocó),
             # buscamos la palabra en CUALQUIER categoría (verbo, sustantivo, adj...)
             if not synsets:
