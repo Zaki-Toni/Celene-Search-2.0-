@@ -16,7 +16,7 @@ class TokenizerComponent(INLPComponent):
 class StopwordFilter(INLPComponent):
     """Elimina palabras vacías."""
     
-    def __init__(self, language: str = 'spanish'):
+    def __init__(self, language: str = 'english'):
         self.stop_words = set(stopwords.words(language))
 
     def process(self, tokens: list[str]) -> list[str]:
@@ -49,18 +49,18 @@ class WordNetExpander(INLPComponent):
             wn_tag = self._get_wordnet_pos(tag)
             
             # Intento Principal: Buscar respetando la categoría gramatical detectada
-            synsets = wordnet.synsets(word, pos=wn_tag, lang='spa')
+            synsets = wordnet.synsets(word, pos=wn_tag)
             
             # Plan B: 
             # Si la búsqueda estricta no trajo nada (quizás el POS tagger se equivocó),
             # buscamos la palabra en CUALQUIER categoría (verbo, sustantivo, adj...)
-            if not synsets:
-                synsets = wordnet.synsets(word, lang='spa')
+            if not synsets and wn_tag is None:
+                synsets = wordnet.synsets(word)
 
             for syn in synsets:
                 # Casteamos a Any para evitar error de Pylance
                 syn_obj = cast(Any, syn)
-                for lemma in syn_obj.lemmas('spa'):
+                for lemma in syn_obj.lemmas():
                     clean_lemma = lemma.name().replace('_', ' ')
                     expanded_terms.add(clean_lemma)
         

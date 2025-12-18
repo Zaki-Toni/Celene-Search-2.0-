@@ -2,12 +2,10 @@ import sys
 import os
 import shutil
 
-# --- CONFIGURACIÓN DE RUTAS ---
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_dir)
 sys.path.append(project_root)
 
-# --- IMPORTS ---
 from src.infrastructure.fs.loader import FileDocumentLoader
 from src.infrastructure.search_engine.adapter import WhooshAdapter
 from src.infrastructure.search_engine.writer import WhooshWriter
@@ -31,9 +29,9 @@ def setup_environment():
     # 2. Crear un archivo simulado
     # Nota: Usamos la palabra 'automóvil' en el texto.
     # Luego buscaremos 'coche' para probar que el NLP conecta ambos.
-    file_path = os.path.join(TEST_DOCS_DIR, "prueba_auto.txt")
+    file_path = os.path.join(TEST_DOCS_DIR, "test_car.txt")
     with open(file_path, "w", encoding="utf-8") as f:
-        f.write("El automóvil rojo corre muy rápido por la carretera.")
+        f.write("The red automobile is very fast on the highway.")
     
     print("✅ Entorno de pruebas creado.")
 
@@ -69,9 +67,9 @@ def test_search_service():
     service = SearchService(reader, nlp)
     
     # PRUEBA DE FUEGO:
-    # El documento tiene "automóvil". Buscaremos "coche".
+    # El documento tiene "automóvil". Buscaremos "car".
     # Si el servicio funciona, el NLP expandirá "coche" -> "automóvil" y lo encontrará.
-    query = "coche"
+    query = "car"
     print(f"🔍 Buscando: '{query}' ...")
     
     results = service.execute_search(query)

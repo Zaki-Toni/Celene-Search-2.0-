@@ -15,7 +15,7 @@ class NLPPipeline:
     def __init__(self):
         # Inicializamos los pasos del pipeline en orden estricto
         self.tokenizer = TokenizerComponent()
-        self.sw_filter = StopwordFilter(language='spanish')
+        self.sw_filter = StopwordFilter(language='english')
         self.tagger = POSTagger()
         self.expander = WordNetExpander()
 

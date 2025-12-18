@@ -15,10 +15,10 @@ def main():
     
     # Pruebas con palabras clave
     test_queries = [
-        "coche",
-        "perro",
-        "computadora",
-        "feliz"
+        "car",      # Debería dar: automobile, auto, machine...
+        "dog",      # Debería dar: canine, pooch...
+        "computer", # Debería dar: computing machine, data processor...
+        "happy"     # Debería dar: felicitous, glad...
     ]
     
     for text in test_queries:
