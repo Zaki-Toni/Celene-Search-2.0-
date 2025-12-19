@@ -1,3 +1,5 @@
+"""Script to manually verify the document ingestion (FileDocumentLoader)."""
+
 import os
 import sys
 
@@ -19,6 +21,7 @@ DOCS_DIR = os.path.join(project_root, "data", "documents")
 
 
 def main():
+    """Run a simple ingestion check and print a summary of loaded docs."""
     print(f"--- Probando Ingesta desde: {DOCS_DIR} ---")
 
     # Verificamos que la carpeta exista antes de empezar

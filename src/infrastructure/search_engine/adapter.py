@@ -1,14 +1,24 @@
 import os
 import shutil
+"""Whoosh adapter: manage index creation and access.
+
+This component encapsulates the Whoosh index schema, directory
+creation and simple lifecycle operations such as creating or resetting
+the index directory.
+"""
+
+import os
+import shutil
 from whoosh.fields import ID, TEXT, Schema
 from whoosh.index import Index, create_in, exists_in, open_dir
-from src.infrastructure.search_engine.analyzer import NLTKAnalyzer 
+from src.infrastructure.search_engine.analyzer import NLTKAnalyzer
 
 
 class WhooshAdapter:
-    """
-    Gestiona el acceso físico al índice de Whoosh.
-    Encapsula la configuración del Schema y la creación del directorio.
+    """Adapter that manages the Whoosh index instance and schema.
+
+    Args:
+        index_dir: Filesystem path where the Whoosh index files are stored.
     """
 
     def __init__(self, index_dir: str):
@@ -24,8 +34,10 @@ class WhooshAdapter:
         )
 
     def get_index(self) -> Index:
-        """
-        Devuelve el objeto índice. Si no existe, lo crea.
+        """Return a Whoosh Index object, creating it if necessary.
+
+        The method ensures the directory exists and returns a ready-to-use
+        Index instance.
         """
         if not os.path.exists(self.index_dir):
             os.makedirs(self.index_dir)
@@ -37,8 +49,9 @@ class WhooshAdapter:
             return create_in(self.index_dir, self.schema)
 
     def reset_index(self):
-        """
-        Borra y recrea el índice (útil para re-indexar desde cero).
+        """Remove the index directory and create a fresh index.
+
+        Useful for tests or re-indexing from scratch.
         """
         if os.path.exists(self.index_dir):
             shutil.rmtree(self.index_dir)

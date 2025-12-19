@@ -1,3 +1,20 @@
+"""Seed index script for creating a small, hard-coded Whoosh index.
+
+This module provides a CLI-style `main()` function that builds a
+lightweight semantic test dataset and writes it into a Whoosh index
+using the project's adapter/writer abstractions.
+
+The dataset is intentionally small and designed to exercise NLP
+behaviour such as synonyms, lemmatization and ambiguous contexts.
+
+Typical usage:
+
+    python seed_index.py
+
+Functions
+    main: Build and write the example documents into the index.
+"""
+
 import sys
 import os
 import shutil
@@ -16,6 +33,16 @@ from src.infrastructure.search_engine.writer import WhooshWriter
 INDEX_DIR = os.path.join(current_dir, 'data', 'index_storage')
 
 def main():
+    """Create a demo index with a curated set of documents.
+
+    The function will remove any existing index directory at
+    `INDEX_DIR`, instantiate the adapter and writer, construct a list
+    of `Document` objects with simple metadata and persist them to the
+    index.
+
+    This is intended for local testing only and is not idempotent: it
+    deletes the existing index folder when present.
+    """
     print("=========================================================")
     print("🌱 GENERADOR DE ÍNDICE MASIVO (SEMANTIC TEST DATASET)")
     print("=========================================================")

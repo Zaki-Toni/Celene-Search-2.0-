@@ -1,3 +1,11 @@
+"""Integration test script for ingestion, indexing and search.
+
+This file is a convenience script that walks through the full
+pipeline: it loads documents from `data/documents`, indexes them into a
+separate test index and allows interactive searching. It is intended
+for manual testing rather than automatic unit tests.
+"""
+
 import os
 import shutil
 import sys
@@ -22,6 +30,7 @@ TEST_INDEX_DIR = os.path.join(project_root, "data", "test_index_storage")
 
 
 def main():
+    """Run the interactive integration test described in the module docstring."""
     print("--- 🧪 INICIO TEST INTEGRAL: INGESTA + INDEXACIÓN + BÚSQUEDA ---")
 
     # 1. Limpieza previa: Borrar índice de pruebas anterior

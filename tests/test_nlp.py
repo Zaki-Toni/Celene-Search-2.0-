@@ -1,3 +1,10 @@
+"""Simple script to exercise the NLP pipeline components.
+
+This script runs a few representative queries through the
+`NLPPipeline` and prints the expanded terms and boolean query form.
+Useful for manual verification while developing NLP components.
+"""
+
 import sys
 import os
 
@@ -8,11 +15,12 @@ sys.path.append(project_root)
 
 from src.domain_nlp.pipeline import NLPPipeline
 
+
 def main():
     print("--- 🧠 Probando Pipeline de NLP (Español) ---")
-    
+
     pipeline = NLPPipeline()
-    
+
     # Pruebas con palabras clave
     test_queries = [
         "car",      # Debería dar: automobile, auto, machine...
@@ -20,14 +28,15 @@ def main():
         "computer", # Debería dar: computing machine, data processor...
         "happy"     # Debería dar: felicitous, glad...
     ]
-    
+
     for text in test_queries:
         print(f"\n🔎 Entrada: '{text}'")
         result = pipeline.process(text)
-        
+
         print(f"   Original: {result.original_text}")
         print(f"   Términos ({len(result.expanded_terms)}): {result.expanded_terms}")
         print(f"   Query Booleana: {result.to_boolean_query()}")
+
 
 if __name__ == "__main__":
     main()

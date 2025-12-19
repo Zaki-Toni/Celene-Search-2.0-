@@ -1,3 +1,14 @@
+"""Utilities to load documents from the filesystem into Document objects.
+
+`FileDocumentLoader` scans a directory and uses the extractor
+strategies from :mod:`src.infrastructure.fs.extractors` to convert
+supported files into `Document` instances.
+
+The loader is intentionally simple: it ignores subdirectories and
+unsupported file extensions and returns a list of processed
+documents.
+"""
+
 import os
 
 from src.core.interfaces import BaseExtractor
@@ -14,9 +25,11 @@ from src.infrastructure.fs.extractors import (
 
 
 class FileDocumentLoader:
-    """
-    Se encarga de escanear un directorio y convertir archivos físicos
-    en objetos 'Document'.
+    """Scan a source folder and convert supported files into Documents.
+
+    Attributes:
+        source_dir: Path to the directory that will be scanned.
+        _extractors: Mapping of file extension to extractor instance.
     """
 
     def __init__(self, source_dir: str):
@@ -33,8 +46,16 @@ class FileDocumentLoader:
         }
 
     def load_all(self) -> list[Document]:
-        """
-        Recorre la carpeta configurada y devuelve una lista de documentos procesados.
+        """Scan the `source_dir` and return a list of `Document` objects.
+
+        The loader will iterate files at the top level of `source_dir`,
+        select an extractor based on file extension and build a
+        `Document` for each file that yields content.
+
+        Returns:
+            A list of `Document` instances. If the directory does not
+            exist or no supported files are found an empty list is
+            returned.
         """
         if not os.path.exists(self.source_dir):
             print(f"Advertencia: El directorio {self.source_dir} no existe.")

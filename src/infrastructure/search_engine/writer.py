@@ -1,12 +1,22 @@
+"""Whoosh writer implementation.
+
+This module contains a small adapter that writes `Document` objects
+to a Whoosh index using the provided `WhooshAdapter`.
+"""
+
 from src.core.interfaces import IIndexWriter
 from src.core.models import Document
 from src.infrastructure.search_engine.adapter import WhooshAdapter
 
 ###CAMBIAR DEBUG A LOGGIN
 
+
 class WhooshWriter(IIndexWriter):
-    """
-    Implementación de escritura usando Whoosh.
+    """Writer that persists documents into a Whoosh index.
+
+    The writer maintains a Whoosh writer instance and provides
+    `add_documents` and `commit` operations required by the
+    `IIndexWriter` contract.
     """
 
     def __init__(self, adapter: WhooshAdapter):
@@ -15,8 +25,10 @@ class WhooshWriter(IIndexWriter):
         self._writer = self.ix.writer()
 
     def add_documents(self, docs: list[Document]) -> None:
-        """
-        Añade una lista de documentos al buffer de escritura.
+        """Add multiple documents to the index buffer.
+
+        Args:
+            docs: List of `Document` instances to be indexed.
         """
         for doc in docs:
             try:
@@ -27,8 +39,10 @@ class WhooshWriter(IIndexWriter):
                 print(f"Error indexando {doc.title}: {e}")
 
     def commit(self) -> None:
-        """
-        Guarda los cambios físicamente en el disco.
+        """Commit pending documents to disk and reset the writer.
+
+        If an error occurs during commit the writer will attempt to
+        cancel the pending transaction.
         """
         try:
             self._writer.commit()
