@@ -103,7 +103,7 @@ El proyecto sigue una estructura de capas estricta:
 ├── manage_index.py             # Script CLI para ejecutar la indexación
 └── run_server.py               # Script CLI para iniciar el servidor Web
 
-
+```
 
 ## ⚙️ Configuración del Entorno
 
